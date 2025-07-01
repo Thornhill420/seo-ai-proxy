@@ -5,7 +5,9 @@ require("dotenv").config();
 const app = express();
 
 const corsOptions = {
-  origin: "https://thornhill420.github.io/seo-product-generator",
+  origin: "https://thornhill420.github.io/seo-product-generator", // Exact frontend URL
+  methods: ["POST"], // Allow only POST
+  allowedHeaders: ["Content-Type"], // Allow necessary headers
   optionsSuccessStatus: 200,
 };
 app.use(cors(corsOptions));
@@ -26,7 +28,7 @@ app.post("/generate", async (req, res) => {
         "X-Title": "SEO Product Generator",
       },
       body: JSON.stringify({
-        model: model || "deepseek/deepseek-chat-v3-0324:free", // Updated model
+        model: model || "deepseek/deepseek-chat-v3-0324:free",
         messages: [{ role: "user", content: prompt }],
       }),
     });

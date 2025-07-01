@@ -5,9 +5,9 @@ require("dotenv").config();
 const app = express();
 
 const corsOptions = {
-  origin: "https://thornhill420.github.io/seo-product-generator", // Exact frontend URL
-  methods: ["POST"], // Allow only POST
-  allowedHeaders: ["Content-Type"], // Allow necessary headers
+  origin: "https://seo-product-generator.github.io", // Updated to correct frontend URL
+  methods: ["POST", "OPTIONS"],
+  allowedHeaders: ["Content-Type"],
   optionsSuccessStatus: 200,
 };
 app.use(cors(corsOptions));
@@ -24,7 +24,7 @@ app.post("/generate", async (req, res) => {
       headers: {
         Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
         "Content-Type": "application/json",
-        "HTTP-Referer": "https://thornhill420.github.io/seo-product-generator",
+        "HTTP-Referer": "https://seo-product-generator.github.io",
         "X-Title": "SEO Product Generator",
       },
       body: JSON.stringify({

@@ -1,7 +1,9 @@
-// index.js
 const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
+
+// In Node 18+ (Render uses Node 22), fetch is globally available
+// So you DO NOT need: const fetch = require("node-fetch");
 
 const app = express();
 app.use(cors());
@@ -17,7 +19,7 @@ app.post("/generate", async (req, res) => {
     const response = await fetch(API_URL, {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
+        Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`, // <-- Template literal with backticks
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
@@ -34,5 +36,5 @@ app.post("/generate", async (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`✅ Server running on http://localhost:${PORT}`);
+  console.log(`✅ Server running on port ${PORT}`); // <-- backticks and string
 });

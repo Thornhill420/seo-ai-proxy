@@ -4,9 +4,8 @@ require("dotenv").config();
 
 const app = express();
 
-// Restrict CORS to your GitHub Pages domain
 const corsOptions = {
-  origin: "https://thornhill420.github.io", // Your GitHub Pages URL
+  origin: "https://thornhill420.github.io/seo-product-generator",
   optionsSuccessStatus: 200,
 };
 app.use(cors(corsOptions));
@@ -17,16 +16,17 @@ const API_URL = "https://openrouter.ai/api/v1/chat/completions";
 
 app.post("/generate", async (req, res) => {
   const { prompt, model } = req.body;
-
   try {
     const response = await fetch(API_URL, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
         "Content-Type": "application/json",
+        "HTTP-Referer": "https://thornhill420.github.io/seo-product-generator",
+        "X-Title": "SEO Product Generator",
       },
       body: JSON.stringify({
-        model: model || "deepseek/deepseek-chat-v3-0324:free",
+        model: model || "deepseek/deepseek-chat-v3-0324:free", // Updated model
         messages: [{ role: "user", content: prompt }],
       }),
     });

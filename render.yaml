@@ -1,0 +1,11 @@
+# render.yaml
+services:
+  - type: web
+    name: openrouter-proxy
+    env: node
+    plan: free
+    buildCommand: "npm install"
+    startCommand: "node index.js"
+    envVars:
+      - key: OPENROUTER_API_KEY
+        sync: false

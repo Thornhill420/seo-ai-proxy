@@ -2,11 +2,14 @@ const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
 
-// In Node 18+ (Render uses Node 22), fetch is globally available
-// So you DO NOT need: const fetch = require("node-fetch");
-
 const app = express();
-app.use(cors());
+
+// Restrict CORS to your GitHub Pages domain
+const corsOptions = {
+  origin: "https://thornhill420.github.io", // Your GitHub Pages URL
+  optionsSuccessStatus: 200,
+};
+app.use(cors(corsOptions));
 app.use(express.json());
 
 const PORT = process.env.PORT || 5000;
@@ -19,7 +22,7 @@ app.post("/generate", async (req, res) => {
     const response = await fetch(API_URL, {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`, // <-- Template literal with backticks
+        Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
@@ -27,6 +30,10 @@ app.post("/generate", async (req, res) => {
         messages: [{ role: "user", content: prompt }],
       }),
     });
+
+    if (!response.ok) {
+      throw new Error(`OpenRouter API error: ${response.status}`);
+    }
 
     const data = await response.json();
     res.json(data);
@@ -36,5 +43,5 @@ app.post("/generate", async (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`✅ Server running on port ${PORT}`); // <-- backticks and string
+  console.log(`✅ Server running on port ${PORT}`);
 });
